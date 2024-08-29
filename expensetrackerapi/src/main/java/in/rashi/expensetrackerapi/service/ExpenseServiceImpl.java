@@ -2,7 +2,6 @@ package in.rashi.expensetrackerapi.service;
 
 import java.util.*;
 
-import org.hibernate.annotations.DialectOverride.OverridesAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
