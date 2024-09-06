@@ -1,5 +1,7 @@
 package in.rashi.expensetrackerapi.service;
 
+import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,18 +47,44 @@ public class ExpenseServiceImpl implements ExpenseService {
     public Expense updateExpenseDetails(Long id, Expense expense) {
         Expense existingExpense = getExpenseById(id);
 
-        existingExpense.setName(expense.getName() != null? expense.getName() : existingExpense.getName());
+        existingExpense.setName(expense.getName() != null ? expense.getName() : existingExpense.getName());
 
-        existingExpense.setDescription(expense.getDescription() != null? expense.getDescription() : existingExpense.getDescription());
+        existingExpense.setDescription(
+                expense.getDescription() != null ? expense.getDescription() : existingExpense.getDescription());
 
-        existingExpense.setCategory(expense.getCategory() != null? expense.getCategory() : existingExpense.getCategory());
+        existingExpense
+                .setCategory(expense.getCategory() != null ? expense.getCategory() : existingExpense.getCategory());
 
-        existingExpense.setDate(expense.getDate() != null? expense.getDate() : existingExpense.getDate());
+        existingExpense.setDate(expense.getDate() != null ? expense.getDate() : existingExpense.getDate());
 
-        existingExpense.setAmount(expense.getAmount() != null? expense.getAmount() : existingExpense.getAmount());
+        existingExpense.setAmount(expense.getAmount() != null ? expense.getAmount() : existingExpense.getAmount());
 
         return expenseRepo.save(existingExpense);
     }
 
+    @Override
+    public List<Expense> readByCategory(String category, Pageable page) {
+        return expenseRepo.findByCategory(category, page).toList();
     }
 
+    @Override
+    public List<Expense> readByName(String name, Pageable page) {
+        return expenseRepo.findByNameContaining(name, page).toList();
+    }
+
+    @Override
+    public List<Expense> readByDate(Date startDate, Date endDate, Pageable page) {
+        if(startDate == null){
+            startDate = new Date(0);
+        }
+        if(endDate == null){
+            endDate = new Date(System.currentTimeMillis());
+        }
+        Page<Expense> pages = expenseRepo.findByDateBetween(startDate, endDate, page);
+
+        return pages.toList();
+    }
+
+    
+
+}
