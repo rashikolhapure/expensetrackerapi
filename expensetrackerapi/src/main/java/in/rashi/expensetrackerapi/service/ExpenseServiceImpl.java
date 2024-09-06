@@ -1,8 +1,10 @@
 package in.rashi.expensetrackerapi.service;
 
-import java.util.*;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import in.rashi.expensetrackerapi.repository.ExpenseRepository;
@@ -15,8 +17,8 @@ public class ExpenseServiceImpl implements ExpenseService {
     private ExpenseRepository expenseRepo;
 
     @Override
-    public List<Expense> getAllExpenses() {
-        return expenseRepo.findAll();
+    public Page<Expense> getAllExpenses(Pageable page) {
+        return expenseRepo.findAll(page);
     }
 
     @Override
@@ -55,4 +57,6 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         return expenseRepo.save(existingExpense);
     }
-}
+
+    }
+

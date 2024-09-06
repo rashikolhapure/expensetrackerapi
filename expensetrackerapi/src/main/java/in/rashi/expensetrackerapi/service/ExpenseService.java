@@ -1,12 +1,11 @@
 package in.rashi.expensetrackerapi.service;
 
-import java.util.*;
-
+import org.springframework.data.domain.*;
 import in.rashi.expensetrackerapi.entity.Expense;;
 
 public interface ExpenseService {
 
-    List<Expense> getAllExpenses();
+    Page<Expense> getAllExpenses(Pageable page);
 
     Expense getExpenseById(Long id);
 
